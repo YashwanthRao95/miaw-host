@@ -86,7 +86,7 @@
     <!-- ====== JAVASCRIPT LISTENER ====== -->
     <script>
         window.addEventListener("message", function(event) {
-            console.log("Received message:", event.data);
+            //console.log("Received message:", event.data);
 
             if (event.data?.type === "OPEN_VIDEO_MODAL") {
                 const url = event.data.payload?.iframeUrl;
@@ -95,6 +95,17 @@
                 document.getElementById("modalIframe").src = url;
                 document.getElementById("bigModal").style.display = "flex";
             }
+
+			if (event.data?.type === "REDIRECT_URL") {
+		        const redirectUrl = event.data?.payload?.redirectUrl;
+		
+		        if (redirectUrl) {
+		            console.log("Redirecting to:", redirectUrl);
+		            window.location.href = redirectUrl;  // same-tab redirect
+		        } else {
+		            console.error("REDIRECT_URL event received without redirectUrl");
+		        }
+		    }
         });
 
         function closeBigModal() {
