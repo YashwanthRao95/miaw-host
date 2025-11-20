@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>MIAW Modal Host</title>
+    <title>Enhanced Chat Testing Page</title>
 
     <style>
         /* ===== Full Screen Overlay Modal ===== */
@@ -59,8 +59,11 @@
 
 <body>
 
-    <h1>MIAW Host Page (Netlify)</h1>
-    <p>This page receives postMessage events from your MIAW LWC inside Salesforce.</p>
+    <h1>Enhanced Chat Testing Page</h1>
+    <p>This page receives postMessage events from your Enhanced Chat LWC inside Salesforce.</p>
+
+	<h3>Send Message to Chat when Agentforce is invoked</h3>
+	<button id="myButton" onclick="myAction()">ADP RUN Bundles</button>
 
     <!-- ===== FULLSCREEN VIDEO MODAL ===== -->
     <div id="bigModal" style="display:none;">
@@ -95,6 +98,11 @@
             document.getElementById("modalIframe").src = "";
             document.getElementById("bigModal").style.display = "none";
         }
+
+		function myAction() {
+		    console.log("Inline button clicked!");
+		    embeddedservice_bootstrap.utilAPI.sendTextMessage('Tell me about RUN bundles');
+		}
     </script>
 
     <!-- 🔥 INSERT YOUR MIAW SNIPPET HERE -->
