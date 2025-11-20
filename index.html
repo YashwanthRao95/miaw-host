@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MIAW Modal Host</title>
+
+    <style>
+        /* ===== Full Screen Overlay Modal ===== */
+        #bigModal {
+            position: fixed;
+            inset: 0;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 999999;
+        }
+
+        /* Dark Background */
+        #bigModal .modal-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.75);
+            z-index: 999998;
+        }
+
+        /* Content Box */
+        #bigModal .modal-content {
+            position: relative;
+            width: 85%;
+            max-width: 900px;
+            height: 65vh;
+            background: #fff;
+            border-radius: 12px;
+            padding: 20px;
+            z-index: 999999;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.45);
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 16px;
+            font-size: 30px;
+            cursor: pointer;
+            color: #444;
+        }
+
+        #modalIframe {
+            flex: 1;
+            width: 100%;
+            border: none;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>MIAW Host Page (Netlify)</h1>
+    <p>This page receives postMessage events from your MIAW LWC inside Salesforce.</p>
+
+    <!-- ===== FULLSCREEN VIDEO MODAL ===== -->
+    <div id="bigModal" style="display:none;">
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeBigModal()">✖</span>
+
+            <iframe 
+                id="modalIframe"
+                src=""
+                allowfullscreen
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            ></iframe>
+        </div>
+    </div>
+
+    <!-- ====== JAVASCRIPT LISTENER ====== -->
+    <script>
+        window.addEventListener("message", function(event) {
+            console.log("Received message:", event.data);
+
+            if (event.data?.type === "OPEN_VIDEO_MODAL") {
+                const url = event.data.payload?.iframeUrl;
+                console.log("Loading video:", url);
+
+                document.getElementById("modalIframe").src = url;
+                document.getElementById("bigModal").style.display = "flex";
+            }
+        });
+
+        function closeBigModal() {
+            document.getElementById("modalIframe").src = "";
+            document.getElementById("bigModal").style.display = "none";
+        }
+    </script>
+
+    <!-- 🔥 INSERT YOUR MIAW SNIPPET HERE -->
+    <script type='text/javascript'>
+	function initEmbeddedMessaging() {
+		try {
+			embeddedservice_bootstrap.settings.language = 'en_US'; // For example, enter 'en' or 'en-US'
+
+			embeddedservice_bootstrap.init(
+				'00DTI000003CGgn',
+				'ADP_Chat',
+				'https://myadp--fit2.sandbox.my.site.com/ESWADPChat1760454923929',
+				{
+					scrt2URL: 'https://myadp--fit2.sandbox.my.salesforce-scrt.com'
+				}
+			);
+		} catch (err) {
+			console.error('Error loading Embedded Messaging: ', err);
+		}
+	};
+</script>
+<script type='text/javascript' src='https://myadp--fit2.sandbox.my.site.com/ESWADPChat1760454923929/assets/js/bootstrap.min.js' onload='initEmbeddedMessaging()'></script>
+
+</body>
+</html>
