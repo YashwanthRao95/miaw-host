@@ -96,16 +96,37 @@
                 document.getElementById("bigModal").style.display = "flex";
             }
 
+			let redirectTimer = null;
+			let latestRedirectUrl = null;
+
 			if (event.data?.type === "REDIRECT_URL") {
 		        const redirectUrl = event.data?.payload?.redirectUrl;
-		
-		        if (redirectUrl) {
-		            console.log("Redirecting to:", redirectUrl);
-		            //window.location.href = redirectUrl;  // same-tab redirect
-					window.open(redirectUrl, "_blank");
-		        } else {
+
+		        if (!redirectUrl) {
 		            console.error("REDIRECT_URL event received without redirectUrl");
+		            return;
 		        }
+		
+		        console.log("Captured redirect:", redirectUrl);
+		
+		        // Store the newest redirect
+		        latestRedirectUrl = redirectUrl;
+		
+		        // Clear previous timer if more events are still coming
+		        if (redirectTimer) {
+		            clearTimeout(redirectTimer);
+		        }
+		
+		        // Wait 300ms (or any delay you choose)
+		        redirectTimer = setTimeout(() => {
+		            console.log("Redirecting finally to:", latestRedirectUrl);
+		            window.open(latestRedirectUrl, "_blank");
+		            // OR same tab:
+		            // window.location.href = latestRedirectUrl;
+		
+		            // Reset timer
+		            redirectTimer = null;
+		        }, 500);
 		    }
         });
 
