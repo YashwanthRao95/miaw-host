@@ -101,7 +101,8 @@
 		
 		        if (redirectUrl) {
 		            console.log("Redirecting to:", redirectUrl);
-		            window.location.href = redirectUrl;  // same-tab redirect
+		            //window.location.href = redirectUrl;  // same-tab redirect
+					window.open(redirectUrl, "_blank");
 		        } else {
 		            console.error("REDIRECT_URL event received without redirectUrl");
 		        }
