@@ -95,10 +95,10 @@
 			embeddedservice_bootstrap.utilAPI.sendTextMessage('Initial Message');
 		  });
 
-		// window.addEventListener("onEmbeddedMessagingConversationStarted", (event) => {
-		// 	console.log("Received the onEmbeddedMessagingFirstBotMessageSent event…")
-		// 	embeddedservice_bootstrap.utilAPI.sendTextMessage('Initial Message');
-		//   });
+		window.addEventListener("onEmbeddedMessagingFirstBotMessageSent", (event) => {
+			console.log("First Bot message")
+			embeddedservice_bootstrap.utilAPI.sendTextMessage('Initial Message');
+		  });
 		
         window.addEventListener("message", function(event) {
             //console.log("Received message:", event.data);
