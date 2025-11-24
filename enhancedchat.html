@@ -85,7 +85,7 @@
 
     <!-- ====== JAVASCRIPT LISTENER ====== -->
     <script>
-		window.addEventListener("onEmbeddedMessagingFirstBotMessageSent", (event) => {
+		window.addEventListener("onEmbeddedMessagingConversationStarted", (event) => {
 			console.log("Received the onEmbeddedMessagingFirstBotMessageSent event…")
 			embeddedservice_bootstrap.utilAPI.sendTextMessage('Initial Message');
 		  });
