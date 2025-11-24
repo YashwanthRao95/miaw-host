@@ -89,6 +89,16 @@
 			console.log("Received the onEmbeddedMessagingFirstBotMessageSent event…")
 			embeddedservice_bootstrap.utilAPI.sendTextMessage('Initial Message');
 		  });
+
+		window.addEventListener("onEmbeddedMessagingConversationOpened", (event) => {
+			console.log("Received conv opened")
+			embeddedservice_bootstrap.utilAPI.sendTextMessage('Initial Message');
+		  });
+
+		// window.addEventListener("onEmbeddedMessagingConversationStarted", (event) => {
+		// 	console.log("Received the onEmbeddedMessagingFirstBotMessageSent event…")
+		// 	embeddedservice_bootstrap.utilAPI.sendTextMessage('Initial Message');
+		//   });
 		
         window.addEventListener("message", function(event) {
             //console.log("Received message:", event.data);
