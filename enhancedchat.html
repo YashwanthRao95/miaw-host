@@ -87,7 +87,7 @@
     <script>
 		window.addEventListener("onEmbeddedMessagingFirstBotMessageSent", (event) => {
 			console.log("Received the onEmbeddedMessagingFirstBotMessageSent event…")
-			sendMessage('Initial Message');
+			embeddedservice_bootstrap.utilAPI.sendTextMessage('Initial Message');
 		  });
 		
         window.addEventListener("message", function(event) {
@@ -151,7 +151,7 @@
 	function initEmbeddedMessaging() {
 		try {
 			embeddedservice_bootstrap.settings.language = 'en_US'; // For example, enter 'en' or 'en-US'
-      embeddedservice_bootstrap.utilAPI.sendTextMessage('Initial Message');
+      
 
 			embeddedservice_bootstrap.init(
 				'00DTI000003CGgn',
