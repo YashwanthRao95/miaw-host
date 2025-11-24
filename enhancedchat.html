@@ -85,6 +85,11 @@
 
     <!-- ====== JAVASCRIPT LISTENER ====== -->
     <script>
+		window.addEventListener("onEmbeddedMessagingFirstBotMessageSent", (event) => {
+			console.log("Received the onEmbeddedMessagingFirstBotMessageSent event…")
+			sendMessage('Initial Message');
+		  });
+		
         window.addEventListener("message", function(event) {
             //console.log("Received message:", event.data);
 
