@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Enhanced Chat Testing Page</title>
+
+    <style>
+        /* ===== Full Screen Overlay Modal ===== */
+        #bigModal {
+            position: fixed;
+            inset: 0;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 999999;
+        }
+
+        /* Dark Background */
+        #bigModal .modal-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.75);
+            z-index: 999998;
+        }
+
+        /* Content Box */
+        #bigModal .modal-content {
+            position: relative;
+            width: 85%;
+            max-width: 900px;
+            height: 65vh;
+            background: #fff;
+            border-radius: 12px;
+            padding: 20px;
+            z-index: 999999;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.45);
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 16px;
+            font-size: 30px;
+            cursor: pointer;
+            color: #444;
+        }
+
+        #modalIframe {
+            flex: 1;
+            width: 100%;
+            border: none;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Enhanced Chat Testing Page</h1>
+    <p>This page receives postMessage events from your Enhanced Chat LWC inside Salesforce.</p>
+
+	<h3>Send Message to Chat when Agentforce is invoked</h3>
+	<button id="myButton" onclick="myAction()">ADP RUN Bundles</button>
+
+	<h3>Open about page</h3>
+	<button onclick="window.location.href='about.html'">Go to About Page</button>
+
+    <!-- ===== FULLSCREEN VIDEO MODAL ===== -->
+    <div id="bigModal" style="display:none;">
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeBigModal()">✖</span>
+
+            <iframe 
+                id="modalIframe"
+                src=""
+                allowfullscreen
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            ></iframe>
+        </div>
+    </div>
+
+    <!-- ====== JAVASCRIPT LISTENER ====== -->
+    <script>
+        window.addEventListener("message", function(event) {
+            //console.log("Received message:", event.data);
+
+            if (event.data?.type === "OPEN_VIDEO_MODAL") {
+                const url = event.data.payload?.iframeUrl;
+                console.log("Loading video:", url);
+
+                document.getElementById("modalIframe").src = url;
+                document.getElementById("bigModal").style.display = "flex";
+            }
+
+			let redirectTimer = null;
+			let latestRedirectUrl = null;
+
+			if (event.data?.type === "REDIRECT_URL") {
+		        const redirectUrl = event.data?.payload?.redirectUrl;
+
+		        if (!redirectUrl) {
+		            console.error("REDIRECT_URL event received without redirectUrl");
+		            return;
+		        }
+		
+		        console.log("Captured redirect:", redirectUrl);
+		
+		        // Store the newest redirect
+		        latestRedirectUrl = redirectUrl;
+		
+		        // Clear previous timer if more events are still coming
+		        if (redirectTimer) {
+		            clearTimeout(redirectTimer);
+		        }
+		
+		        // Wait 300ms (or any delay you choose)
+		        redirectTimer = setTimeout(() => {
+		            console.log("Redirecting finally to:", latestRedirectUrl);
+		            window.open(latestRedirectUrl, "_blank");
+		            // OR same tab:
+		            // window.location.href = latestRedirectUrl;
+		
+		            // Reset timer
+		            redirectTimer = null;
+		        }, 2000);
+		    }
+        });
+
+        function closeBigModal() {
+            document.getElementById("modalIframe").src = "";
+            document.getElementById("bigModal").style.display = "none";
+        }
+
+		function myAction() {
+		    console.log("Inline button clicked!");
+		    embeddedservice_bootstrap.utilAPI.sendTextMessage('Tell me about RUN bundles');
+		}
+    </script>
+
+    <!-- 🔥 INSERT YOUR MIAW SNIPPET HERE -->
+    <script type='text/javascript'>
+	function initEmbeddedMessaging() {
+		try {
+			embeddedservice_bootstrap.settings.language = 'en_US'; // For example, enter 'en' or 'en-US'
+      embeddedservice_bootstrap.utilAPI.sendTextMessage('Initial Message');
+
+			embeddedservice_bootstrap.init(
+				'00DTI000003CGgn',
+				'Enhanced_Chat_Test_V2',
+				'https://myadp--fit2.sandbox.my.site.com/ESWEnhancedChatTestV21761331483146',
+				{
+					scrt2URL: 'https://myadp--fit2.sandbox.my.salesforce-scrt.com'
+				}
+			);
+		} catch (err) {
+			console.error('Error loading Embedded Messaging: ', err);
+		}
+	};
+</script>
+<script type='text/javascript' src='https://myadp--fit2.sandbox.my.site.com/ESWEnhancedChatTestV21761331483146/assets/js/bootstrap.min.js' onload='initEmbeddedMessaging()'></script>
+</body>
+</html>
