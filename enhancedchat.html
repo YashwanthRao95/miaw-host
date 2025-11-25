@@ -85,8 +85,8 @@
 
     <!-- ====== JAVASCRIPT LISTENER ====== -->
     <script>
-		window.addEventListener("onEmbeddedMessagingEvent", (event) => {
-			console.log('Messaging Event ---- ', event?.detail?.eventName);
+		window.addEventListener("*", (event) => {
+			console.log('All Event ---- ', event?.detail?.eventName);
 		    // if (event?.detail?.eventName === "SSE_CONNECTION_ENDED_EVENT") {
 		    //     console.warn("🔌 SSE connection closed.");
 		        
